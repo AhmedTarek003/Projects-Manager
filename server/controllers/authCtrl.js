@@ -1,7 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const path = require("path");
 const fs = require("fs");
 const { uploadFileToCloudinary } = require("../utils/cloudinary");
 
@@ -70,6 +69,7 @@ exports.loginUserCtrl = async (req, res) => {
         userName: user.userName,
         email: user.email,
         phoneNumber: user.phoneNumber,
+        profilePic: user.profilePic,
         role: user.role,
       },
     });

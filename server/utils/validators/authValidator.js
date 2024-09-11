@@ -20,3 +20,26 @@ exports.registerValidator = [
     .withMessage("password must be at least 6 characters"),
   validate,
 ];
+
+exports.updatedUserValidator = [
+  check("userName").notEmpty().withMessage("username is required").optional(),
+  check("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email")
+    .optional(),
+  check("phoneNumber")
+    .notEmpty()
+    .withMessage("phone number is required")
+    .isMobilePhone()
+    .withMessage("invalid phone number")
+    .optional(),
+  check("password")
+    .notEmpty()
+    .withMessage("password is required")
+    .isLength({ min: 6 })
+    .withMessage("password must be at least 6 characters")
+    .optional(),
+  validate,
+];
