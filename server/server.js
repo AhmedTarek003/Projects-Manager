@@ -2,6 +2,7 @@ const express = require("express");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db/connectDB");
+const globalErrorHandler = require("./middlewares/globalError");
 
 connectDB();
 
@@ -11,9 +12,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+app.use("/api/auth", require("./routes/authRoute"));
+app.use("/api/users", require("./routes/userRoute"));
+
+app.use("*", (req) => {
+  throw new Error("Invalid Route" + req.originalUrl);
+});
+app.use(globalErrorHandler);
 
 const PORT = process.env.PORT || 5000;
-
 const server = app.listen(PORT, () =>
   console.log(`server is running at PORT ${PORT}`)
 );
