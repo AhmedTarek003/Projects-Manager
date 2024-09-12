@@ -21,6 +21,12 @@ exports.registerValidator = [
   validate,
 ];
 
+exports.loginValidator = [
+  check("email").notEmpty().withMessage("email is required"),
+  check("password").notEmpty().withMessage("password is required"),
+  validate,
+];
+
 exports.updatedUserValidator = [
   check("userName").notEmpty().withMessage("username is required").optional(),
   check("email")

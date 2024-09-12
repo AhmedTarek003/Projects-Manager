@@ -66,6 +66,7 @@ exports.loginUserCtrl = async (req, res) => {
       success: true,
       msg: "user logged in successfully",
       user: {
+        _id: user._id,
         userName: user.userName,
         email: user.email,
         phoneNumber: user.phoneNumber,

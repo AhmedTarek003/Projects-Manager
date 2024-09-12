@@ -6,7 +6,10 @@ const {
 } = require("../controllers/authCtrl");
 const uploadFile = require("../middlewares/uploadFile");
 const verifyToken = require("../middlewares/verifyToken");
-const { registerValidator } = require("../utils/validators/authValidator");
+const {
+  registerValidator,
+  loginValidator,
+} = require("../utils/validators/authValidator");
 
 router.post(
   "/register",
@@ -15,7 +18,7 @@ router.post(
   verifyToken,
   registerUserCtrl
 );
-router.post("/login", loginUserCtrl);
+router.post("/login", loginValidator, loginUserCtrl);
 router.post("/logout", verifyToken, logoutUserCtrl);
 
 module.exports = router;

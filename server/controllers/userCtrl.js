@@ -26,11 +26,17 @@ exports.getUserCtrl = async (req, res) => {
 };
 
 exports.getAllUserCtrl = async (req, res) => {
+  const { is_role } = req.query;
   try {
     const { role } = req.user;
     if (role !== "admin")
       return res.status(403).json({ success: false, msg: "access denied" });
-    const users = await User.find({}, { password: 0 });
+    let users;
+    if (is_role.trim() === "all") {
+      users = await User.find({}, { password: 0 });
+    } else if (is_role) {
+      users = await User.find({ role: is_role.trim() }, { password: 0 });
+    }
     res.status(200).json({ success: true, users });
   } catch (error) {
     console.log(error);
