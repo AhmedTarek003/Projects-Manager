@@ -109,8 +109,10 @@ exports.deleteUserCtrl = async (req, res) => {
     if (user.profilePic.public_id) {
       await deleteFileFromCloudinary(user.profilePic.public_id);
     }
-    await User.findByIdAndDelete(id);
-    res.status(200).json({ success: true, msg: "user deleted successfully" });
+    const deletedUser = await User.findByIdAndDelete(id);
+    res
+      .status(200)
+      .json({ success: true, msg: "user deleted successfully", deletedUser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, msg: "delete user faild" });

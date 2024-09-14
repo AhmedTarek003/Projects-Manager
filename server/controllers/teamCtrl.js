@@ -158,6 +158,10 @@ exports.getMyTeamCtrl = async (req, res) => {
         path: "members",
         select: "-password -phoneNumber -createdAt -updatedAt",
       },
+      {
+        path: "projects",
+        select: "-createdAt -updatedAt",
+      },
     ]);
     if (!team)
       return res
