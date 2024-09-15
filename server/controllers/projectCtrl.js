@@ -1,6 +1,8 @@
 const Project = require("../models/Project");
 const mongoose = require("mongoose");
 const Team = require("../models/Team");
+const Event = require("../models/Event");
+const Task = require("../models/Task");
 
 exports.createProjectCtrl = async (req, res) => {
   const { projectName, team, startDate, dueDate } = req.body;
@@ -32,6 +34,11 @@ exports.createProjectCtrl = async (req, res) => {
     await project.save();
     checkTeam.projects.push(project._id);
     await checkTeam.save();
+    await Event.create({
+      title: projectName,
+      date: dueDate,
+      project: project._id,
+    });
     res
       .status(201)
       .json({ success: true, msg: "project created successfully", project });
@@ -84,6 +91,14 @@ exports.updateProjectCtrl = async (req, res) => {
           success: false,
           msg: "you can't make the due date before the new date",
         });
+      const event = await Event.findOne({ project: project._id });
+      await Event.findByIdAndUpdate(
+        event._id,
+        {
+          $set: { date: dueDate },
+        },
+        { new: true }
+      );
     }
     if (status) {
       const statusRes = ["onHold", "inProgress", "completed", "canceled"];
@@ -126,6 +141,9 @@ exports.deleteProjectCtrl = async (req, res) => {
     const team = await Team.findById(project.team);
     if (team.teamLeader.toString() !== _id || role !== "teamLeader")
       return res.status(403).json({ success: false, msg: "access denied" });
+    await Task.deleteMany({ project: project._id });
+    const event = await Event.findOne({ project: project._id });
+    await event.deleteOne();
     const deletedProject = await Project.findByIdAndDelete(id);
     res.status(200).json({
       success: true,
