@@ -16,6 +16,7 @@ app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/users", require("./routes/userRoute"));
 app.use("/api/teams", require("./routes/teamRoute"));
 app.use("/api/projects", require("./routes/projectRoute"));
+app.use("/api/tasks", require("./routes/taskRoute"));
 
 app.use("*", (req) => {
   throw new Error("Invalid Route" + req.originalUrl);

@@ -68,7 +68,7 @@ exports.getProjectCtrl = async (req, res) => {
 };
 
 exports.updateProjectCtrl = async (req, res) => {
-  const { projectName, startDate, dueDate, status, completePercent } = req.body;
+  const { projectName, startDate, dueDate, status } = req.body;
   try {
     const { id } = req.params;
     const { role, _id } = req.user;
@@ -100,7 +100,6 @@ exports.updateProjectCtrl = async (req, res) => {
           projectName,
           startDate,
           dueDate,
-          completePercent,
           status,
         },
       },
@@ -128,13 +127,11 @@ exports.deleteProjectCtrl = async (req, res) => {
     if (team.teamLeader.toString() !== _id || role !== "teamLeader")
       return res.status(403).json({ success: false, msg: "access denied" });
     const deletedProject = await Project.findByIdAndDelete(id);
-    res
-      .status(200)
-      .json({
-        success: true,
-        msg: "project deleted successfully",
-        deletedProject,
-      });
+    res.status(200).json({
+      success: true,
+      msg: "project deleted successfully",
+      deletedProject,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, msg: "error delete project" });
