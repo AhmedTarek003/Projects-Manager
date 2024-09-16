@@ -5,7 +5,7 @@ const {
   logoutUserCtrl,
 } = require("../controllers/authCtrl");
 const uploadFile = require("../middlewares/uploadFile");
-const verifyToken = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/verifyToken");
 const {
   registerValidator,
   loginValidator,

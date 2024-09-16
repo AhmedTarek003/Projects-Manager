@@ -6,7 +6,7 @@ const {
   deleteUserCtrl,
 } = require("../controllers/userCtrl");
 const validateId = require("../middlewares/validateObjectId");
-const verifyToken = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/verifyToken");
 const { updatedUserValidator } = require("../utils/validators/authValidator");
 
 router.get("/get_user", verifyToken, getUserCtrl);

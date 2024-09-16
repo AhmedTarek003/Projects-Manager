@@ -6,6 +6,7 @@ const {
   uploadFileToCloudinary,
 } = require("../utils/cloudinary");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 
 exports.createTeamCtrl = async (req, res) => {
   const { teamName, teamLeader } = req.body;
@@ -167,7 +168,14 @@ exports.getMyTeamCtrl = async (req, res) => {
       return res
         .status(404)
         .json({ success: false, msg: "you are not in the team!" });
-    res.status(200).json({ success: true, team });
+    const token = jwt.sign(
+      { team: team._id, teamLeader: team.teamLeader },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1d" }
+    );
+    res
+      .cookie("team", token, { httpOnly: true, secure: false })
+      .json({ success: true, team });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, msg: "error get my team" });

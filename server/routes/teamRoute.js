@@ -12,7 +12,7 @@ const {
 } = require("../controllers/teamCtrl");
 const uploadFile = require("../middlewares/uploadFile");
 const validateId = require("../middlewares/validateObjectId");
-const verifyToken = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/verifyToken");
 const {
   createTeamValidator,
   updateTeamValidator,

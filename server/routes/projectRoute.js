@@ -8,7 +8,7 @@ const {
 } = require("../controllers/projectCtrl");
 const uploadFile = require("../middlewares/uploadFile");
 const validateId = require("../middlewares/validateObjectId");
-const verifyToken = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/verifyToken");
 const {
   createProjectValidator,
   updateProjectValidator,

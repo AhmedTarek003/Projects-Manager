@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+require("./utils/scheduler");
+
 // routes
 app.use("/api/auth", require("./routes/authRoute"));
 app.use("/api/users", require("./routes/userRoute"));
@@ -18,6 +20,7 @@ app.use("/api/teams", require("./routes/teamRoute"));
 app.use("/api/projects", require("./routes/projectRoute"));
 app.use("/api/tasks", require("./routes/taskRoute"));
 app.use("/api/events", require("./routes/eventRoute"));
+app.use("/api/notifications", require("./routes/notificatiionRoute"));
 
 app.use("*", (req) => {
   throw new Error("Invalid Route" + req.originalUrl);

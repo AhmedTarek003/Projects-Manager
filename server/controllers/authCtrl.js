@@ -82,8 +82,10 @@ exports.loginUserCtrl = async (req, res) => {
 
 exports.logoutUserCtrl = async (req, res) => {
   try {
+    res.clearCookie("token");
+    res.clearCookie("team");
     res
-      .clearCookie("token")
+      .status(200)
       .json({ success: true, msg: "user logged out successfully" });
   } catch (error) {
     console.log(error);

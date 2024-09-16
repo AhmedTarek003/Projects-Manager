@@ -7,7 +7,7 @@ const {
   deleteTaskCtrl,
 } = require("../controllers/taskCtrl");
 const validateId = require("../middlewares/validateObjectId");
-const verifyToken = require("../middlewares/verifyToken");
+const { verifyToken } = require("../middlewares/verifyToken");
 const {
   createTaskValidator,
   updateTaskValidator,
