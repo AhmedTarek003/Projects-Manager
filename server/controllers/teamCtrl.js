@@ -7,6 +7,8 @@ const {
 } = require("../utils/cloudinary");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
+const Chat = require("../models/Chat");
+const Message = require("../models/Message");
 
 exports.createTeamCtrl = async (req, res) => {
   const { teamName, teamLeader } = req.body;
@@ -46,6 +48,10 @@ exports.createTeamCtrl = async (req, res) => {
       teamLeader,
     });
     await team.save();
+    await Chat.create({
+      teamId: team._id,
+      participants: [team.teamLeader, ...team.members],
+    });
     res
       .status(201)
       .json({ success: true, msg: "team created successfully", team });
@@ -87,6 +93,16 @@ exports.addMemberToTeamCtrl = async (req, res) => {
       },
       { new: true }
     ).select("-password");
+    const chat = await Chat.findOne({ teamId: id });
+    await Chat.findByIdAndUpdate(
+      chat._id,
+      {
+        $push: {
+          participants: userId,
+        },
+      },
+      { new: true }
+    );
     res.status(200).json({
       success: true,
       msg: "added user to team successfully",
@@ -130,6 +146,16 @@ exports.removeMemberFromTeamCtrl = async (req, res) => {
       },
       { new: true }
     ).select("-password");
+    const chat = await Chat.findOne({ teamId: id });
+    await Chat.findByIdAndUpdate(
+      chat._id,
+      {
+        $pull: {
+          participants: userId,
+        },
+      },
+      { new: true }
+    );
     res.status(200).json({
       success: true,
       msg: "removed user from team successfully",
@@ -342,6 +368,9 @@ exports.deleteTeamCtrl = async (req, res) => {
     if (team.teamPic.public_id) {
       await deleteFileFromCloudinary(team.teamPic.public_id);
     }
+    const chat = await Chat.findOne({ teamId: id });
+    await Message.deleteMany({ reciverTeam: id });
+    await Chat.findByIdAndDelete(chat._id);
     const deletedTeam = await Team.findByIdAndDelete(id);
     res
       .status(200)

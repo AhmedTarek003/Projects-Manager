@@ -21,6 +21,7 @@ app.use("/api/projects", require("./routes/projectRoute"));
 app.use("/api/tasks", require("./routes/taskRoute"));
 app.use("/api/events", require("./routes/eventRoute"));
 app.use("/api/notifications", require("./routes/notificatiionRoute"));
+app.use("/api/chats", require("./routes/chatRoute"));
 
 app.use("*", (req) => {
   throw new Error("Invalid Route" + req.originalUrl);
