@@ -2,7 +2,11 @@ const { check } = require("express-validator");
 const validate = require("../../middlewares/validatorMiddleware");
 
 exports.createProjectValidator = [
-  check("projectName").notEmpty().withMessage("project name is required"),
+  check("projectName")
+    .notEmpty()
+    .withMessage("project name is required")
+    .isAlphanumeric()
+    .withMessage("project must be alphanumeric"),
   check("team").notEmpty().withMessage("choose a team first"),
   check("startDate")
     .notEmpty()
@@ -21,6 +25,8 @@ exports.updateProjectValidator = [
   check("projectName")
     .notEmpty()
     .withMessage("project name is required")
+    .isAlphanumeric()
+    .withMessage("project must be alphanumeric")
     .optional(),
   check("startDate")
     .notEmpty()

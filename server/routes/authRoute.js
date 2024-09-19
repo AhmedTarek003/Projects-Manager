@@ -4,6 +4,7 @@ const {
   loginUserCtrl,
   logoutUserCtrl,
 } = require("../controllers/authCtrl");
+const passLimit = require("../middlewares/limitingPassword");
 const uploadFile = require("../middlewares/uploadFile");
 const { verifyToken } = require("../middlewares/verifyToken");
 const {
@@ -18,7 +19,7 @@ router.post(
   verifyToken,
   registerUserCtrl
 );
-router.post("/login", loginValidator, loginUserCtrl);
+router.post("/login", loginValidator, passLimit, loginUserCtrl);
 router.post("/logout", verifyToken, logoutUserCtrl);
 
 module.exports = router;

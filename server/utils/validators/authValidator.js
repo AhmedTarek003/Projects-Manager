@@ -2,7 +2,11 @@ const { check } = require("express-validator");
 const validate = require("../../middlewares/validatorMiddleware");
 
 exports.registerValidator = [
-  check("userName").notEmpty().withMessage("username is required"),
+  check("userName")
+    .notEmpty()
+    .withMessage("username is required")
+    .isAlphanumeric()
+    .withMessage("Username must be alphanumeric"),
   check("email")
     .notEmpty()
     .withMessage("email is required")
@@ -28,7 +32,12 @@ exports.loginValidator = [
 ];
 
 exports.updatedUserValidator = [
-  check("userName").notEmpty().withMessage("username is required").optional(),
+  check("userName")
+    .notEmpty()
+    .withMessage("username is required")
+    .isAlphanumeric()
+    .withMessage("Username must be alphanumeric")
+    .optional(),
   check("email")
     .notEmpty()
     .withMessage("email is required")

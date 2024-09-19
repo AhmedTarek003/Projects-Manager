@@ -3,13 +3,26 @@ require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const connectDB = require("./db/connectDB");
 const globalErrorHandler = require("./middlewares/globalError");
+const hpp = require("hpp");
+const helmet = require("helmet");
+const rateLimiting = require("express-rate-limit");
+const mongosanitize = require("express-mongo-sanitize");
 
 connectDB();
 
 const app = express();
-
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "1kb" }));
+app.use(express.json({ limit: "1kb" }));
 app.use(cookieParser());
+app.use(
+  rateLimiting({
+    windowMs: 10 * 60 * 1000,
+    max: 200,
+  })
+);
+app.use(mongosanitize());
+app.use(helmet());
+app.use(hpp());
 
 require("./utils/scheduler");
 
