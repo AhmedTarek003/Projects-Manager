@@ -20,21 +20,29 @@ const verifyToken = (req, res, next) => {
 
 const verifyTeam = (req, res, next) => {
   const token = req.cookies.team;
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      msg: "Unauthorised user!,please login with user or teamleader account",
-    });
-  }
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-    req.team = decoded;
+  const accessToken = req.cookies.token;
+  const decod = jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+  req.user = decod;
+  const { role } = req.user;
+  if (role === "admin") {
     next();
-  } catch (error) {
-    return res.status(401).json({
-      success: false,
-      msg: "Unauthorised user!,please login with user or teamleader account",
-    });
+  } else {
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        msg: "Unauthorised user!,please login with user or teamleader account",
+      });
+    }
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      req.team = decoded;
+      next();
+    } catch (error) {
+      return res.status(401).json({
+        success: false,
+        msg: "Unauthorised user!,please login with user or teamleader account",
+      });
+    }
   }
 };
 

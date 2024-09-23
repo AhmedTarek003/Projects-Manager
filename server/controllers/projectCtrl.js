@@ -53,7 +53,7 @@ exports.getAllProjectsCtrl = async (req, res) => {
     const { role } = req.user;
     if (role !== "admin")
       return res.status(403).json({ success: false, msg: "access denied" });
-    const projects = await Project.find();
+    const projects = await Project.find().populate("team", ["teamName"]);
     res.status(200).json({ success: true, projects });
   } catch (error) {
     console.log(error);
