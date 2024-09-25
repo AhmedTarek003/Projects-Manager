@@ -354,4 +354,23 @@ const teams = [
   },
 ];
 
-export { projects, notifications, users, teams };
+const events = [
+  {
+    _id: "66e6d95ee526811f0db2b4be",
+    title: "project3",
+    date: "2024-10-14T10:23:10.124+00:00",
+    project: "66e6d95ee526811f0db2b4bb",
+    createdAt: "2024-09-15T12:55:58.345+00:00",
+    updatedAt: "2024-09-15T12:55:58.345+00:00",
+  },
+  {
+    _id: "66e6d95ee811f0db2b4be",
+    title: "project2",
+    date: "2024-10-14T10:23:10.124+00:00",
+    project: "66e6d95ee526811f0db2b4bb",
+    createdAt: "2024-09-15T12:55:58.345+00:00",
+    updatedAt: "2024-09-15T12:55:58.345+00:00",
+  },
+];
+
+export { projects, notifications, users, teams, events };

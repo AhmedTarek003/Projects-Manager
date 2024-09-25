@@ -7,6 +7,8 @@ import Admins from "./pages/admin/user/Admins";
 import Teams from "./pages/admin/Teams";
 import Projects from "./pages/admin/Projects";
 import Calendar from "./pages/admin/Calendar";
+import AddUser from "./pages/creation/AddUser";
+import AddProject from "./pages/creation/AddProject";
 
 function App() {
   return (
@@ -15,9 +17,11 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/admin_dashboard" element={<Dashboard />}>
           <Route path="users" element={<AllUsers />} />
+          <Route path="users/adduser" element={<AddUser />} />
           <Route path="admins" element={<Admins />} />
           <Route path="teams" element={<Teams />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="projects/addproject" element={<AddProject />} />
           <Route path="calendar" element={<Calendar />} />
         </Route>
         <Route path="*" element={<NotFound />} />

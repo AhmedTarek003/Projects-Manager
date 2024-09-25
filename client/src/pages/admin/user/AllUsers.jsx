@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { users } from "../../../utils/dummyData";
 import { RiDeleteBin6Line, RiEyeLine } from "react-icons/ri";
+import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
@@ -29,9 +30,20 @@ const AllUsers = () => {
         All Users
       </div>
       <div className="flex items-center justify-between">
-        <div className="text-lg">
-          show <span className="font-bold text-blue-500">{users?.length}</span>{" "}
-          users
+        <div>
+          <Link
+            to={"adduser"}
+            title="add new user"
+            className="block bg-green-200 hover:bg-green-300 transition-all w-fit
+          p-1 rounded-lg text-gray-700 cursor-pointer"
+          >
+            <FiPlus size={19} />
+          </Link>
+          <div className="text-lg">
+            show{" "}
+            <span className="font-bold text-blue-500">{users?.length}</span>{" "}
+            users
+          </div>
         </div>
         <div className="w-[330px] ">
           <input
@@ -72,7 +84,7 @@ const AllUsers = () => {
                 <td className="p-2 border bg-white">{user?.role}</td>
                 <td className="p-2 border bg-white">
                   <div className="flex justify-center items-center gap-5">
-                    <Link to={`/users/${user?._id}`}>
+                    <Link to={`${user?._id}`}>
                       <RiEyeLine className="text-blue-500" size={23} />
                     </Link>
                     <RiDeleteBin6Line

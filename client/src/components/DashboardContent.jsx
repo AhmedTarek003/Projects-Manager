@@ -1,4 +1,5 @@
 import Chart from "./Chart";
+import EventsDash from "./EventsDash";
 import NotificationDash from "./NotificationDash";
 import ProjectsDash from "./ProjectsDash";
 
@@ -29,7 +30,10 @@ const DashboardContent = () => {
       </div>
       <div className="flex gap-5 mt-5">
         <ProjectsDash />
-        <NotificationDash />
+        <div className="flex-[4]">
+          <NotificationDash />
+          <EventsDash />
+        </div>
       </div>
       <Chart />
     </div>

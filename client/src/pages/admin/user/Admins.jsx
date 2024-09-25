@@ -75,7 +75,7 @@ const Admins = () => {
                 <td className="p-2 border bg-white">{user?.role}</td>
                 <td className="p-2 border bg-white">
                   <div className="flex justify-center items-center gap-5">
-                    <Link to={`/users/${user?._id}`}>
+                    <Link to={`/admin_dashboard/users/${user?._id}`}>
                       <RiEyeLine className="text-blue-500" size={23} />
                     </Link>
                     <RiDeleteBin6Line

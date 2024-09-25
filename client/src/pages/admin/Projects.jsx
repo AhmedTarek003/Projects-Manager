@@ -4,6 +4,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { projects } from "../../utils/dummyData";
+import { FiPlus } from "react-icons/fi";
 
 const Projects = () => {
   const [search, setSearch] = useState("");
@@ -30,10 +31,20 @@ const Projects = () => {
         All Projects
       </div>
       <div className="flex items-center justify-between">
-        <div className="text-lg">
-          show{" "}
-          <span className="font-bold text-blue-500">{projects?.length}</span>{" "}
-          projects
+        <div>
+          <Link
+            to={"addproject"}
+            title="add new project"
+            className="block bg-green-200 hover:bg-green-300 transition-all w-fit
+          p-1 rounded-lg text-gray-700 cursor-pointer"
+          >
+            <FiPlus size={19} />
+          </Link>
+          <div className="text-lg">
+            show{" "}
+            <span className="font-bold text-blue-500">{projects?.length}</span>{" "}
+            projects
+          </div>
         </div>
         <div>
           sort :{" "}
@@ -93,7 +104,7 @@ const Projects = () => {
                 </td>
                 <td className="p-2 border bg-white">
                   <div className="flex justify-center items-center gap-5">
-                    <Link to={`/projects/${project?._id}`}>
+                    <Link to={`${project?._id}`}>
                       <RiEyeLine className="text-blue-500" size={23} />
                     </Link>
                     <RiDeleteBin6Line
