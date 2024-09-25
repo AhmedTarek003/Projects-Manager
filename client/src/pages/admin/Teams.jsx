@@ -1,6 +1,8 @@
 import Swal from "sweetalert2";
 import { teams } from "../../utils/dummyData";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiPlus } from "react-icons/fi";
 
 const Teams = () => {
   const [search, setSearch] = useState("");
@@ -27,9 +29,20 @@ const Teams = () => {
         Teams
       </div>
       <div className="flex items-center justify-between">
-        <div className="text-lg">
-          show <span className="font-bold text-blue-500">{teams?.length}</span>{" "}
-          teams
+        <div>
+          <Link
+            to={"createteam"}
+            title="add new team"
+            className="block bg-green-400 hover:bg-green-500 transition-all w-fit
+          p-1 rounded-lg text-white cursor-pointer"
+          >
+            <FiPlus size={19} />
+          </Link>
+          <div className="text-lg">
+            show{" "}
+            <span className="font-bold text-blue-500">{teams?.length}</span>{" "}
+            teams
+          </div>
         </div>
         <div className="w-[330px] ">
           <input

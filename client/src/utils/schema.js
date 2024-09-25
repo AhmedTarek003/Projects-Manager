@@ -24,3 +24,8 @@ export const createProjectSchema = yup.object().shape({
   startDate: yup.date().required("required"),
   dueDate: yup.date().required("required"),
 });
+
+export const createTeamSchema = yup.object().shape({
+  teamName: yup.string().required("required"),
+  teamLeader: yup.string().required("you must choose a team leader"),
+});

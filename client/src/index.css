@@ -12,6 +12,12 @@ body {
   border-radius: 10px;
 }
 
+.team .active {
+  background-color: rgb(76, 120, 253);
+  color: white;
+  border-radius: 10px;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

@@ -37,6 +37,40 @@ const projects = [
     updatedAt: "2024-09-15T12:55:58.334Z",
     __v: 0,
   },
+  {
+    _id: "66e6d95ee5268131f0db2b4bb",
+    projectName: "project3",
+    team: {
+      _id: "66e567407b06e36f0e7196ea",
+      teamName: "team1",
+    },
+    tasks: [],
+    completePercent: 100,
+    startDate: "2024-09-14T10:13:10.493Z",
+    dueDate: "2024-10-14T10:23:10.124Z",
+    status: "completed",
+    files: [],
+    createdAt: "2024-09-15T12:55:58.334Z",
+    updatedAt: "2024-09-15T12:55:58.334Z",
+    __v: 0,
+  },
+  {
+    _id: "66e6d95ee52681j31f0db2b4bb",
+    projectName: "project3",
+    team: {
+      _id: "66e567407b06e36f0e7196ea",
+      teamName: "team1",
+    },
+    tasks: [],
+    completePercent: 0,
+    startDate: "2024-09-14T10:13:10.493Z",
+    dueDate: "2024-10-14T10:23:10.124Z",
+    status: "canceled",
+    files: [],
+    createdAt: "2024-09-15T12:55:58.334Z",
+    updatedAt: "2024-09-15T12:55:58.334Z",
+    __v: 0,
+  },
 ];
 
 const notifications = [
@@ -354,6 +388,56 @@ const teams = [
   },
 ];
 
+const team = {
+  _id: "66e2cc092cb0b80ddd2b1b49",
+  teamName: "team2",
+  teamPic: {
+    url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvaTgHfZIBI8GMu9L47Tigh43ZNmxyQqPZoA&s",
+    public_id: null,
+  },
+  teamLeader: {
+    _id: "66e2cbe62cb0b80ddd2b1b44",
+    userName: "ali",
+    email: "ali@gmail.com",
+    profilePic: {
+      url: "https://res.cloudinary.com/dyyjz2ymv/image/upload/v1726139378/hjgzngusfw13u3ufweqq.jpg",
+      public_id: "hjgzngusfw13u3ufweqq",
+    },
+    role: "teamLeader",
+    __v: 0,
+  },
+  members: [
+    {
+      _id: "66e2ccecab8f35860c93c2dd",
+      userName: "mona",
+      email: "mona@gmail.com",
+      phoneNumber: "23434342",
+      profilePic: {
+        url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
+        public_id: null,
+      },
+      role: "user",
+      __v: 0,
+    },
+    {
+      _id: "66e2cce1ab8f35860c93c2da",
+      userName: "mohamed",
+      email: "mo@gmail.com",
+      phoneNumber: "2342343423",
+      profilePic: {
+        url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
+        public_id: null,
+      },
+      role: "user",
+      __v: 0,
+    },
+  ],
+  projects: ["66e566c3a58a21f61efc546c"],
+  createdAt: "2024-09-12T11:10:01.155Z",
+  updatedAt: "2024-09-17T13:22:38.689Z",
+  __v: 1,
+};
+
 const events = [
   {
     _id: "66e6d95ee526811f0db2b4be",
@@ -373,4 +457,4 @@ const events = [
   },
 ];
 
-export { projects, notifications, users, teams, events };
+export { projects, notifications, users, teams, team, events };

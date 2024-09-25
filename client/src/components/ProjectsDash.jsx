@@ -44,11 +44,8 @@ const ProjectsDash = () => {
                     </span>
                   </td>
                   <td className="p-2 border-b">{project?.completePercent}%</td>
-                  <td>
-                    <Link
-                      to={`/projects/${project?._id}`}
-                      className="p-2 border-b"
-                    >
+                  <td className="p-2 border-b">
+                    <Link to={`/projects/${project?._id}`} className="block">
                       <LuEye className="m-auto text-blue-500" size={24} />
                     </Link>
                   </td>
