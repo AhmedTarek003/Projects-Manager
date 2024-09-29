@@ -1,12 +1,35 @@
 import { Link } from "react-router-dom";
 import { team } from "../../utils/dummyData";
 import { MdModeEdit } from "react-icons/md";
+import { useState } from "react";
 
 const TeamInfo = () => {
+  const [file, setFile] = useState(null);
   return (
     <div>
-      <div>
-        <img src={team?.teamPic.url} alt="" className="w-full max-h-[300px]" />
+      <div className="relative">
+        <img
+          src={file ? URL.createObjectURL(file) : team?.teamPic.url}
+          alt=""
+          className="w-full max-h-[300px]"
+        />
+        <label htmlFor="teamPic" className="absolute bottom-5 right-10">
+          <MdModeEdit
+            className="bg-gray-500 w-8 h-8 p-1 rounded-lg cursor-pointer opacity-[0.5] hover:opacity-[1]"
+            size={23}
+          />
+          {file && (
+            <button className="bg-blue-100 hover:bg-blue-200 cursor-pointer py-1 px-2 mt-2 rounded-lg text-gray-800 font-bold">
+              upload
+            </button>
+          )}
+        </label>
+        <input
+          type="file"
+          id="teamPic"
+          hidden
+          onChange={(e) => setFile(e.target.files[0])}
+        />
       </div>
       <div className="flex justify-between p-5">
         <div>
@@ -34,7 +57,7 @@ const TeamInfo = () => {
             </div>
           </div>
         </div>
-        <Link to={`team/${team?._id}`}>
+        <Link to={`/teams/editteaminfo/${team?._id}`}>
           <MdModeEdit
             size={24}
             className="bg-green-500 hover:bg-green-600 w-[35px] h-[35px] rounded-lg p-[6px] text-green-200 cursor-pointer"

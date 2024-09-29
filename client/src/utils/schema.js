@@ -7,6 +7,7 @@ export const registerSchema = yup.object().shape({
   userName: yup.string().required("username is required"),
   email: yup.string().email("invalid email").required("email is required"),
   phoneNumber: yup.number().required("phone number is required"),
+  role: yup.string().required("role is required"),
   password: yup
     .string()
     .min(6)
@@ -28,4 +29,9 @@ export const createProjectSchema = yup.object().shape({
 export const createTeamSchema = yup.object().shape({
   teamName: yup.string().required("required"),
   teamLeader: yup.string().required("you must choose a team leader"),
+});
+
+export const createTaskSchema = yup.object().shape({
+  title: yup.string().required("required"),
+  desc: yup.string().required("required"),
 });

@@ -64,7 +64,10 @@ exports.getAllProjectsCtrl = async (req, res) => {
 exports.getProjectCtrl = async (req, res) => {
   try {
     const { id } = req.params;
-    const project = await Project.findById(id);
+    const project = await Project.findById(id).populate([
+      { path: "team", select: "teamLeader , teamName" },
+      { path: "tasks" },
+    ]);
     if (!project)
       return res.status(404).json({ success: false, msg: "project not found" });
     res.status(200).json({ success: true, project });

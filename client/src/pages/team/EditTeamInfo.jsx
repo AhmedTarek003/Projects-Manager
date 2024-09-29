@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import { createTeamSchema } from "../../utils/schema";
-import { users } from "../../utils/dummyData";
+import { team, users } from "../../utils/dummyData";
 
-const CreateTeam = () => {
+const EditTeamInfo = () => {
   const onSubmit = async (values, actions) => {
     console.log(values);
     actions.resetForm();
@@ -18,8 +18,8 @@ const CreateTeam = () => {
     isSubmitting,
   } = useFormik({
     initialValues: {
-      teamName: "",
-      teamLeader: "",
+      teamName: team?.teamName,
+      teamLeader: team?.teamLeader.userName,
     },
     validationSchema: createTeamSchema,
     onSubmit,
@@ -54,11 +54,11 @@ const CreateTeam = () => {
         <div className="flex flex-col mt-3">
           <label>Team Leader</label>
           <select
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.teamLeader}
             name="teamLeader"
             id="teamLeader"
+            value={values.teamLeader}
+            onChange={handleChange}
+            onBlur={handleBlur}
             className={`p-2 mt-1 outline-none rounded-md shadow-sm ${
               errors.teamLeader && touched.teamLeader ? "outline-red-500" : ""
             }`}
@@ -82,11 +82,11 @@ const CreateTeam = () => {
                 p-[5px] rounded-md text-white text-xl"
           disabled={isSubmitting}
         >
-          create
+          Edit
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateTeam;
+export default EditTeamInfo;

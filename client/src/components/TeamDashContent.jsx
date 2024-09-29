@@ -1,9 +1,20 @@
 import moment from "moment";
 import { projects } from "../utils/dummyData";
-import { Link } from "react-router-dom";
 import { BsInfoCircleFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import ProjectInfo from "../pages/projects/ProjectInfo";
 
 const TeamDashContent = () => {
+  const [openProject, setOpenProject] = useState(false);
+
+  useEffect(() => {
+    if (openProject) {
+      document.body.classList.add("open_window");
+    } else {
+      document.body.classList.remove("open_window");
+    }
+  }, [openProject]);
+
   const fileterProjects = projects?.filter(
     (project) => project.status !== "completed" && project.status !== "canceled"
   );
@@ -44,17 +55,19 @@ const TeamDashContent = () => {
               <td className="p-3 border-b">{project?.completePercent}%</td>
               <td className="p-3 border-b">5/10</td>
               <td className="p-3 border-b">
-                <Link to={`/projects/${project?._id}`} className="block">
+                <div>
                   <BsInfoCircleFill
-                    className="m-auto text-blue-500 hover:text-blue-700"
+                    className="m-auto text-blue-500 hover:text-blue-700 cursor-pointer"
                     size={24}
+                    onClick={() => setOpenProject(true)}
                   />
-                </Link>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
     </div>
   );
 };

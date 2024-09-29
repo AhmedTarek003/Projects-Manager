@@ -15,8 +15,13 @@ import Members from "./pages/team/Members";
 import TeamProjects from "./pages/team/TeamProjects";
 import Chat from "./pages/team/Chat";
 import CreateTeam from "./pages/creation/CreateTeam";
+import EditProject from "./pages/projects/EditProject";
+import AddTask from "./pages/creation/AddTask";
+import EditTask from "./pages/task/EditTask";
+import EditTeamInfo from "./pages/team/EditTeamInfo";
 
 function App() {
+  // const user = "admin";
   return (
     <BrowserRouter>
       <Routes>
@@ -29,14 +34,20 @@ function App() {
           <Route path="teams/createteam" element={<CreateTeam />} />
           <Route path="projects" element={<Projects />} />
           <Route path="projects/addproject" element={<AddProject />} />
+          <Route path="projects/:id" element={<EditProject />} />
           <Route path="calendar" element={<Calendar />} />
         </Route>
         <Route path="/teams" element={<TeamDash />}>
           <Route path="teaminfo/:id" element={<TeamInfo />} />
+          <Route path="editteaminfo/:id" element={<EditTeamInfo />} />
           <Route path="members" element={<Members />} />
           <Route path="projects" element={<TeamProjects />} />
+          <Route path="projects/:id" element={<EditProject />} />
           <Route path="chat" element={<Chat />} />
+          <Route path=":projectid/addtask" element={<AddTask />} />
+          <Route path="project/tasks/:id" element={<EditTask />} />
         </Route>
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

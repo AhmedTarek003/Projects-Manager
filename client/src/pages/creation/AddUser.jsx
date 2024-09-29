@@ -23,6 +23,7 @@ const AddUser = () => {
       userName: "",
       email: "",
       phoneNumber: "",
+      role: "",
       password: "",
       confirmPassword: "",
     },
@@ -113,6 +114,26 @@ const AddUser = () => {
               />
               {errors.phoneNumber && touched.phoneNumber && (
                 <p className="text-red-500">{errors.phoneNumber}</p>
+              )}
+            </div>
+            <div className="flex flex-col mt-3 ">
+              <label>role</label>
+              <select
+                name="role"
+                id="role"
+                value={values.role}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className={`p-2 mt-1 outline-none rounded-md shadow-sm ${
+                  errors.role && touched.role ? "outline-red-500" : ""
+                }`}
+              >
+                <option value="user">User</option>
+                <option value="teamLeader">Team Leader</option>
+                <option value="admin">Admin</option>
+              </select>
+              {errors.role && touched.role && (
+                <p className="text-red-500">{errors.role}</p>
               )}
             </div>
             <div className="flex flex-col mt-3 ">

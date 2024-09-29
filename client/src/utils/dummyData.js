@@ -73,6 +73,59 @@ const projects = [
   },
 ];
 
+const project = {
+  _id: "66e567537b06e36f0e7196ed",
+  projectName: "project1",
+  team: {
+    _id: "66e567407b06e36f0e7196ea",
+    teamName: "team1",
+    teamLeader: "66e19cc4f7c2431907efdf93",
+  },
+  tasks: [
+    {
+      _id: "66e6befdb8b6ccb71c105398",
+      title: "task2",
+      desc: "this is task two",
+      project: "66e567537b06e36f0e7196ed",
+      completed: true,
+      createdAt: "2024-09-15T11:03:25.594Z",
+      updatedAt: "2024-09-15T12:03:44.597Z",
+      __v: 0,
+    },
+    {
+      _id: "66e6ca59d0dd98922a8663e9",
+      title: "task1",
+      desc: "this is task one",
+      project: "66e567537b06e36f0e7196ed",
+      completed: false,
+      createdAt: "2024-09-15T11:51:53.718Z",
+      updatedAt: "2024-09-15T12:03:59.042Z",
+      __v: 0,
+    },
+  ],
+  completePercent: 10,
+  startDate: "2024-09-14T10:13:10.493Z",
+  dueDate: "2024-09-20T10:23:10.124Z",
+  files: [],
+  createdAt: "2024-09-14T10:37:07.017Z",
+  updatedAt: "2024-09-15T12:03:59.047Z",
+  __v: 3,
+  status: "inProgress",
+};
+
+const task = {
+  _id: "66e6befdb8b6ccb71c105398",
+  title: "task2",
+  desc: "this is task two",
+  project: {
+    projectName: "project1",
+  },
+  completed: true,
+  createdAt: "2024-09-15T11:03:25.594Z",
+  updatedAt: "2024-09-15T12:03:44.597Z",
+  __v: 0,
+};
+
 const notifications = [
   {
     _id: "66e8446c8da013728e5e0710",
@@ -457,4 +510,4 @@ const events = [
   },
 ];
 
-export { projects, notifications, users, teams, team, events };
+export { projects, project, task, notifications, users, teams, team, events };

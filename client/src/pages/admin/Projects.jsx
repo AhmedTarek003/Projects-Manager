@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { RiDeleteBin6Line, RiEyeLine } from "react-icons/ri";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { projects } from "../../utils/dummyData";
 import { FiPlus } from "react-icons/fi";
+import ProjectInfo from "../projects/ProjectInfo";
 
 const Projects = () => {
   const [search, setSearch] = useState("");
+  const [openProject, setOpenProject] = useState(false);
 
   // eslint-disable-next-line no-unused-vars
   const deleteHandler = (id) => {
@@ -25,6 +27,14 @@ const Projects = () => {
       }
     });
   };
+
+  useEffect(() => {
+    if (openProject) {
+      document.body.classList.add("open_window");
+    } else {
+      document.body.classList.remove("open_window");
+    }
+  }, [openProject]);
   return (
     <div className="p-5">
       <div className="text-center my-10 text-4xl font-semibold uppercase text-gray-700">
@@ -104,9 +114,11 @@ const Projects = () => {
                 </td>
                 <td className="p-2 border bg-white">
                   <div className="flex justify-center items-center gap-5">
-                    <Link to={`${project?._id}`}>
-                      <RiEyeLine className="text-blue-500" size={23} />
-                    </Link>
+                    <RiEyeLine
+                      className="text-blue-500 cursor-pointer"
+                      size={23}
+                      onClick={() => setOpenProject(true)}
+                    />
                     <RiDeleteBin6Line
                       className="text-red-500 cursor-pointer"
                       size={23}
@@ -119,6 +131,7 @@ const Projects = () => {
           </tbody>
         </table>
       </div>
+      {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
     </div>
   );
 };

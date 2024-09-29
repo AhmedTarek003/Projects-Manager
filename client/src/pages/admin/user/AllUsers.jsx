@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { users } from "../../../utils/dummyData";
-import { RiDeleteBin6Line, RiEyeLine } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -83,16 +83,11 @@ const AllUsers = () => {
                 <td className="p-2 border bg-white">{user?.phoneNumber}</td>
                 <td className="p-2 border bg-white">{user?.role}</td>
                 <td className="p-2 border bg-white">
-                  <div className="flex justify-center items-center gap-5">
-                    <Link to={`${user?._id}`}>
-                      <RiEyeLine className="text-blue-500" size={23} />
-                    </Link>
-                    <RiDeleteBin6Line
-                      className="text-red-500 cursor-pointer"
-                      size={23}
-                      onClick={() => deleteHandler(user?._id)}
-                    />
-                  </div>
+                  <RiDeleteBin6Line
+                    className="text-red-500 cursor-pointer mx-auto"
+                    size={23}
+                    onClick={() => deleteHandler(user?._id)}
+                  />
                 </td>
               </tr>
             ))}

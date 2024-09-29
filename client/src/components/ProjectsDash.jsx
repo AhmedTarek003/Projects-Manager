@@ -1,12 +1,24 @@
 import { projects } from "../utils/dummyData";
 import moment from "moment";
+import { useEffect, useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import ProjectInfo from "../pages/projects/ProjectInfo";
 
 const ProjectsDash = () => {
+  const [openProject, setOpenProject] = useState(false);
+
+  useEffect(() => {
+    if (openProject) {
+      document.body.classList.add("open_window");
+    } else {
+      document.body.classList.remove("open_window");
+    }
+  }, [openProject]);
+
   return (
     <>
-      <div className="flex-[8] bg-white p-3 shadow-lg rounded-lg h-fit">
+      <div className="flex-[8] bg-white p-3 shadow-lg rounded-lg h-fit relative">
         <div className="text-center">
           <div className="text-2xl font-semibold">Projects</div>
           <p className="text-gray-500">projects must be delivered</p>
@@ -45,9 +57,11 @@ const ProjectsDash = () => {
                   </td>
                   <td className="p-2 border-b">{project?.completePercent}%</td>
                   <td className="p-2 border-b">
-                    <Link to={`/projects/${project?._id}`} className="block">
-                      <LuEye className="m-auto text-blue-500" size={24} />
-                    </Link>
+                    <LuEye
+                      className="m-auto text-blue-500 cursor-pointer"
+                      size={24}
+                      onClick={() => setOpenProject(true)}
+                    />
                   </td>
                 </tr>
               ))}
@@ -60,6 +74,7 @@ const ProjectsDash = () => {
             see all projects
           </Link>
         </div>
+        {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
       </div>
     </>
   );

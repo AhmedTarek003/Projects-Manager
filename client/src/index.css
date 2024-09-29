@@ -6,6 +6,10 @@ body {
   background-color: #f5f3f3;
 }
 
+body.open_window {
+  overflow: hidden;
+}
+
 .active {
   background-color: rgb(51, 230, 51);
   color: white;
