@@ -1,14 +1,18 @@
-import { users } from "../../../utils/dummyData";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import useGetAllUsers from "../../../hooks/user/useGetAllUsers";
+import { useSelector } from "react-redux";
+import Spinner from "../../../components/Spinner";
+import useDeleteUser from "../../../hooks/user/useDeleteUser";
 
 const Admins = () => {
   const [search, setSearch] = useState("");
 
-  const getAdmins = users.filter((user) => user.role === "admin");
-
-  // eslint-disable-next-line no-unused-vars
+  const { loading } = useGetAllUsers();
+  const { users } = useSelector((state) => state.user);
+  const getAdmins = users.filter((user) => user?.role === "admin");
+  const { deleteUser } = useDeleteUser();
   const deleteHandler = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -18,9 +22,9 @@ const Admins = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("deleted");
+        await deleteUser(id);
       }
     });
   };
@@ -45,45 +49,49 @@ const Admins = () => {
           />
         </div>
       </div>
-      <div>
-        <table className="table-auto mt-10 w-full">
-          <thead className="bg-gray-600 text-white">
-            <tr>
-              <th className="p-2 border-b">#</th>
-              <th className="p-2 border-b">User</th>
-              <th className="p-2 border-b">Email</th>
-              <th className="p-2 border-b">Phone</th>
-              <th className="p-2 border-b">Role</th>
-              <th className="p-2 border-b">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            {getAdmins?.map((user, idx) => (
-              <tr key={user?._id}>
-                <td className="p-2 border bg-white">{idx + 1}</td>
-                <td className="bg-white border p-2 flex gap-5 items-center">
-                  <img
-                    src={user?.profilePic.url}
-                    alt=""
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <span>{user?.userName}</span>
-                </td>
-                <td className="p-2 border bg-white">{user?.email}</td>
-                <td className="p-2 border bg-white">{user?.phoneNumber}</td>
-                <td className="p-2 border bg-white">{user?.role}</td>
-                <td className="p-2 border bg-white">
-                  <RiDeleteBin6Line
-                    className="text-red-500 cursor-pointer mx-auto"
-                    size={23}
-                    onClick={() => deleteHandler(user?._id)}
-                  />
-                </td>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div>
+          <table className="table-auto mt-10 w-full">
+            <thead className="bg-gray-600 text-white">
+              <tr>
+                <th className="p-2 border-b">#</th>
+                <th className="p-2 border-b">User</th>
+                <th className="p-2 border-b">Email</th>
+                <th className="p-2 border-b">Phone</th>
+                <th className="p-2 border-b">Role</th>
+                <th className="p-2 border-b">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="text-center">
+              {getAdmins?.map((user, idx) => (
+                <tr key={user?._id}>
+                  <td className="p-2 border bg-white">{idx + 1}</td>
+                  <td className="bg-white border p-2 flex gap-5 items-center">
+                    <img
+                      src={user?.profilePic.url}
+                      alt=""
+                      className="w-10 h-10 rounded-full object-cover"
+                    />
+                    <span>{user?.userName}</span>
+                  </td>
+                  <td className="p-2 border bg-white">{user?.email}</td>
+                  <td className="p-2 border bg-white">{user?.phoneNumber}</td>
+                  <td className="p-2 border bg-white">{user?.role}</td>
+                  <td className="p-2 border bg-white">
+                    <RiDeleteBin6Line
+                      className="text-red-500 cursor-pointer mx-auto"
+                      size={23}
+                      onClick={() => deleteHandler(user?._id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

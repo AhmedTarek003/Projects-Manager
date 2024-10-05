@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
@@ -19,14 +20,40 @@ import EditProject from "./pages/projects/EditProject";
 import AddTask from "./pages/creation/AddTask";
 import EditTask from "./pages/task/EditTask";
 import EditTeamInfo from "./pages/team/EditTeamInfo";
+import { useAuthContext } from "./context/authContext";
+import useAuth from "./hooks/user/useAuth";
+import ProtectRoute from "./utils/ProtectRoute";
 
 function App() {
-  // const user = "admin";
+  useAuth();
+  const { authUser } = useAuthContext();
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/admin_dashboard" element={<Dashboard />}>
+        <Route
+          path="/"
+          element={
+            !authUser?.success ? (
+              <Login />
+            ) : (
+              <Navigate
+                to={
+                  authUser?.user?.role === "admin"
+                    ? "/admin_dashboard"
+                    : "/teams"
+                }
+              />
+            )
+          }
+        />
+        <Route
+          path="/admin_dashboard"
+          element={
+            <ProtectRoute>
+              <Dashboard />
+            </ProtectRoute>
+          }
+        >
           <Route path="users" element={<AllUsers />} />
           <Route path="users/adduser" element={<AddUser />} />
           <Route path="admins" element={<Admins />} />
@@ -37,7 +64,14 @@ function App() {
           <Route path="projects/:id" element={<EditProject />} />
           <Route path="calendar" element={<Calendar />} />
         </Route>
-        <Route path="/teams" element={<TeamDash />}>
+        <Route
+          path="/teams"
+          element={
+            <ProtectRoute>
+              <TeamDash />
+            </ProtectRoute>
+          }
+        >
           <Route path="teaminfo/:id" element={<TeamInfo />} />
           <Route path="editteaminfo/:id" element={<EditTeamInfo />} />
           <Route path="members" element={<Members />} />
@@ -50,6 +84,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
   );
 }

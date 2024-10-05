@@ -1,15 +1,45 @@
-import { FaRegBell } from "react-icons/fa";
+import { useState } from "react";
+import { FaRegBell, FaCaretUp } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
+import useLogout from "../hooks/auth/useLogout";
+import { useAuthContext } from "../context/authContext";
 
 const Header = () => {
+  const { authUser } = useAuthContext();
+  const [dropdown, setDropdown] = useState(false);
+  const { logout } = useLogout();
+  const handleLogout = async () => {
+    await logout();
+  };
   return (
     <div className="bg-white px-10 py-2 flex justify-between items-center shadow-lg rounded-md">
       <div className="flex items-center gap-1">
         <img
-          src="https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp"
+          src={authUser?.user?.profilePic?.url}
           alt="pic"
           className="w-10 object-cover rounded-full"
         />
-        <div className="font-semibold">ahmed tarek</div>
+        <div
+          className="flex items-center gap-1  p-2 cursor-pointer select-none relative"
+          onClick={() => setDropdown(!dropdown)}
+        >
+          <div className="font-semibold">{authUser?.user?.userName}</div>
+          <FaCaretUp
+            className={`transition-all ${
+              dropdown && "rotate-180 transition-all"
+            }`}
+          />
+          {dropdown && (
+            <div className="absolute top-[47px] w-[140px] px-2 min-h-[50px] bg-[#f8f7f7]">
+              <li
+                className="p-2 mt-1 list-none flex text-red-500 hover:text-red-600 font-semibold text-lg items-center gap-2"
+                onClick={handleLogout}
+              >
+                logout <MdLogout size={24} />
+              </li>
+            </div>
+          )}
+        </div>
       </div>
       <div className="relative">
         <FaRegBell size={24} color="#22c55e" />

@@ -1,13 +1,17 @@
 import { useState } from "react";
 import style from "./login.module.css";
 import image from "../../assets/pngegg.png";
+import useLogin from "../../hooks/auth/useLogin";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const { loading, login } = useLogin();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await login(email, password);
   };
 
   return (
@@ -44,7 +48,10 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="float-right mx-3 mt-8 bg-blue-500 hover:bg-blue-600 py-[8px] px-5 rounded-sm text-white"
+              disabled={loading}
+              className={` float-right mx-3 mt-8 py-[8px] px-5 rounded-sm text-white ${
+                loading ? "bg-[#ccc]" : " bg-blue-500 hover:bg-blue-600"
+              }`}
             >
               Login
             </button>

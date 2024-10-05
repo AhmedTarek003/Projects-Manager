@@ -5,9 +5,13 @@ import Header from "../../components/Header";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import TeamDashContent from "../../components/TeamDashContent";
 import { team } from "../../utils/dummyData";
+import { useEffect } from "react";
 
 const TeamDash = () => {
   const location = useLocation();
+  useEffect(() => {
+    localStorage.setItem("tlp", location.pathname);
+  }, [location]);
   return (
     <div className="flex gap-2">
       <div className="flex-1 bg-white h-svh shadow-lg">

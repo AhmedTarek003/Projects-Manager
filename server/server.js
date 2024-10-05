@@ -7,10 +7,17 @@ const hpp = require("hpp");
 const helmet = require("helmet");
 const rateLimiting = require("express-rate-limit");
 const mongosanitize = require("express-mongo-sanitize");
+const cors = require("cors");
 
 connectDB();
 
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(express.urlencoded({ extended: true, limit: "1kb" }));
 app.use(express.json({ limit: "1kb" }));
 app.use(cookieParser());

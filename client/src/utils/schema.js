@@ -1,18 +1,15 @@
 import * as yup from "yup";
 
-const passwordRules =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/;
+// const passwordRules =
+//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,}$/;
 
 export const registerSchema = yup.object().shape({
   userName: yup.string().required("username is required"),
   email: yup.string().email("invalid email").required("email is required"),
   phoneNumber: yup.number().required("phone number is required"),
   role: yup.string().required("role is required"),
-  password: yup
-    .string()
-    .min(6)
-    .matches(passwordRules, { message: "please enter a strong password" })
-    .required("password is required"),
+  password: yup.string().min(6).required("password is required"),
+  // .matches(passwordRules, { message: "please enter a strong password" })
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password"), null], "password must match")

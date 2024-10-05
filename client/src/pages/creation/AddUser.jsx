@@ -1,13 +1,14 @@
 import { useFormik } from "formik";
 import { registerSchema } from "../../utils/schema";
 import { useState } from "react";
+import useCreateUser from "../../hooks/user/useCreateUser";
+import Spinner from "../../components/Spinner";
 
 const AddUser = () => {
   const [file, setFile] = useState(null);
-
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    actions.resetForm();
+  const { createUser, loading } = useCreateUser();
+  const onSubmit = async (values) => {
+    await createUser(values, file);
   };
 
   const {
@@ -35,6 +36,7 @@ const AddUser = () => {
 
   return (
     <div>
+      {loading && <Spinner />}
       <div className="my-8 text-center text-3xl text-gray-800">
         Add New User
       </div>
@@ -128,6 +130,9 @@ const AddUser = () => {
                   errors.role && touched.role ? "outline-red-500" : ""
                 }`}
               >
+                <option value="" hidden>
+                  select role
+                </option>
                 <option value="user">User</option>
                 <option value="teamLeader">Team Leader</option>
                 <option value="admin">Admin</option>

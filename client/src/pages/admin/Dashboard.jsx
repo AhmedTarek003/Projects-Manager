@@ -4,9 +4,13 @@ import { FiUsers } from "react-icons/fi";
 import { GrProjects, GrUserAdmin } from "react-icons/gr";
 import { MdGroups, MdOutlineCalendarMonth } from "react-icons/md";
 import DashboardContent from "../../components/DashboardContent";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const location = useLocation();
+  useEffect(() => {
+    localStorage.setItem("alp", location.pathname);
+  }, [location]);
   return (
     <div className="flex gap-2">
       <div className="flex-1 bg-white h-svh shadow-lg">
