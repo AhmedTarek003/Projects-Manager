@@ -1,12 +1,20 @@
 import { useFormik } from "formik";
 import { createTeamSchema } from "../../utils/schema";
-import { team, users } from "../../utils/dummyData";
+import { useParams } from "react-router-dom";
+import useUpdateTeam from "../../hooks/team/useUpdateTeam";
+import Spinner from "../../components/Spinner";
+import { useSelector } from "react-redux";
+import useGetTeam from "../../hooks/team/useGetTeam";
+import { useEffect } from "react";
 
 const EditTeamInfo = () => {
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    actions.resetForm();
+  const { id } = useParams();
+  const { loading, updateTeam } = useUpdateTeam();
+  const onSubmit = async (values) => {
+    await updateTeam(id, values);
   };
+  useGetTeam();
+  const { team } = useSelector((state) => state.team);
 
   const {
     values,
@@ -19,7 +27,6 @@ const EditTeamInfo = () => {
   } = useFormik({
     initialValues: {
       teamName: team?.teamName,
-      teamLeader: team?.teamLeader.userName,
     },
     validationSchema: createTeamSchema,
     onSubmit,
@@ -27,11 +34,18 @@ const EditTeamInfo = () => {
     validateOnChange: false,
   });
 
-  const getTeamLeaders = users?.filter((user) => user?.role === "teamLeader");
+  useEffect(() => {
+    if (team) {
+      values.teamName = team?.teamName;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [team]);
+
+  // const getTeamLeaders = users?.filter((user) => user?.role === "teamLeader");
 
   return (
     <div>
-      <div className="my-8 text-center text-3xl text-gray-800">Create Team</div>
+      <div className="my-8 text-center text-3xl text-gray-800">Edit Team</div>
       <form onSubmit={handleSubmit} className="flex flex-col  w-[40%] mx-auto">
         <div className="flex flex-col">
           <label>Team Name</label>
@@ -51,7 +65,7 @@ const EditTeamInfo = () => {
             <p className="text-red-500">{errors.teamName}</p>
           )}
         </div>
-        <div className="flex flex-col mt-3">
+        {/* <div className="flex flex-col mt-3">
           <label>Team Leader</label>
           <select
             name="teamLeader"
@@ -75,7 +89,7 @@ const EditTeamInfo = () => {
           {errors.teamLeader && touched.teamLeader && (
             <p className="text-red-500">{errors.teamLeader}</p>
           )}
-        </div>
+        </div> */}
         <button
           type="submit"
           className="bg-blue-400 hover:bg-blue-500 transition-all mt-5 w-[50%] mx-auto
@@ -85,6 +99,7 @@ const EditTeamInfo = () => {
           Edit
         </button>
       </form>
+      {loading && <Spinner />}
     </div>
   );
 };

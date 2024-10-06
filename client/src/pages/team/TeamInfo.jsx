@@ -1,10 +1,20 @@
 import { Link } from "react-router-dom";
-import { team } from "../../utils/dummyData";
 import { MdModeEdit } from "react-icons/md";
 import { useState } from "react";
+import useGetTeam from "../../hooks/team/useGetTeam";
+import { useSelector } from "react-redux";
+import useUpdateTeamImage from "../../hooks/team/useUpdateTeamImage";
+import Spinner from "../../components/Spinner";
 
 const TeamInfo = () => {
   const [file, setFile] = useState(null);
+  useGetTeam();
+  const { team } = useSelector((state) => state.team);
+  const { updateTeamImg, loading } = useUpdateTeamImage();
+  const uploadHandler = async () => {
+    await updateTeamImg(team?._id, file);
+    setFile(null);
+  };
   return (
     <div>
       <div className="relative">
@@ -19,7 +29,10 @@ const TeamInfo = () => {
             size={23}
           />
           {file && (
-            <button className="bg-blue-100 hover:bg-blue-200 cursor-pointer py-1 px-2 mt-2 rounded-lg text-gray-800 font-bold">
+            <button
+              className="bg-blue-100 hover:bg-blue-200 cursor-pointer py-1 px-2 mt-2 rounded-lg text-gray-800 font-bold"
+              onClick={uploadHandler}
+            >
               upload
             </button>
           )}
@@ -64,6 +77,7 @@ const TeamInfo = () => {
           />
         </Link>
       </div>
+      {loading && <Spinner />}
     </div>
   );
 };

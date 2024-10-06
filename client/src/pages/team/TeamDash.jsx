@@ -4,14 +4,18 @@ import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import Header from "../../components/Header";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import TeamDashContent from "../../components/TeamDashContent";
-import { team } from "../../utils/dummyData";
 import { useEffect } from "react";
+import useGetTeam from "../../hooks/team/useGetTeam";
+import { useSelector } from "react-redux";
 
 const TeamDash = () => {
   const location = useLocation();
   useEffect(() => {
     localStorage.setItem("tlp", location.pathname);
   }, [location]);
+  useGetTeam();
+  const { team } = useSelector((state) => state.team);
+
   return (
     <div className="flex gap-2">
       <div className="flex-1 bg-white h-svh shadow-lg">
@@ -33,7 +37,7 @@ const TeamDash = () => {
             Dashboard
           </Link>
           <NavLink
-            to={`teaminfo/123`}
+            to={`teaminfo/${team?._id}`}
             className="text-xl font-semibold mt-3 p-[10px] flex items-center gap-3"
           >
             <GrCircleInformation />
@@ -66,7 +70,7 @@ const TeamDash = () => {
         <Header />
         {location.pathname === "/teams" && (
           <div>
-            <TeamDashContent />
+            <TeamDashContent projects={team?.projects} />
           </div>
         )}
         <Outlet />

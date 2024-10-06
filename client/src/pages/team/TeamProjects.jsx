@@ -1,11 +1,15 @@
 import moment from "moment";
 import { BsInfoCircleFill } from "react-icons/bs";
-import { projects } from "../../utils/dummyData";
 import { useEffect, useState } from "react";
 import ProjectInfo from "../projects/ProjectInfo";
+import useGetTeam from "../../hooks/team/useGetTeam";
+import { useSelector } from "react-redux";
 
 const TeamProjects = () => {
   const [openProject, setOpenProject] = useState(false);
+
+  useGetTeam();
+  const { team } = useSelector((state) => state.team);
 
   useEffect(() => {
     if (openProject) {
@@ -32,7 +36,7 @@ const TeamProjects = () => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {projects?.map((project) => (
+          {team?.projects?.map((project) => (
             <tr key={project?._id} className="bg-white">
               <td className="p-3 border-b">{project?.projectName}</td>
               <td className="p-3 border-b">{project?.team.teamName}</td>

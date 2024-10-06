@@ -17,7 +17,7 @@ const Header = () => {
         <img
           src={authUser?.user?.profilePic?.url}
           alt="pic"
-          className="w-10 object-cover rounded-full"
+          className="w-10 h-10 object-cover rounded-full"
         />
         <div
           className="flex items-center gap-1  p-2 cursor-pointer select-none relative"

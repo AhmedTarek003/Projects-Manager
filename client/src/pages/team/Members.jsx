@@ -1,10 +1,13 @@
 import { FiPlus } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { team } from "../../utils/dummyData";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Swal from "sweetalert2";
+import useGetTeam from "../../hooks/team/useGetTeam";
+import { useSelector } from "react-redux";
 
 const Members = () => {
+  useGetTeam();
+  const { team } = useSelector((state) => state.team);
   // eslint-disable-next-line no-unused-vars
   const deleteHandler = (id) => {
     Swal.fire({

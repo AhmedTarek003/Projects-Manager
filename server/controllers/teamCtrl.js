@@ -304,7 +304,20 @@ exports.updateTeamCtrl = async (req, res) => {
         },
       },
       { new: true }
-    );
+    ).populate([
+      {
+        path: "teamLeader",
+        select: "-password -phoneNumber -createdAt -updatedAt",
+      },
+      {
+        path: "members",
+        select: "-password -phoneNumber -createdAt -updatedAt",
+      },
+      {
+        path: "projects",
+        select: "-createdAt -updatedAt",
+      },
+    ]);
     res
       .status(200)
       .json({ success: true, msg: "updated team successfully", updatedTeam });
@@ -340,7 +353,20 @@ exports.updateImageTeamCtrl = async (req, res) => {
         },
       },
       { new: true }
-    );
+    ).populate([
+      {
+        path: "teamLeader",
+        select: "-password -phoneNumber -createdAt -updatedAt",
+      },
+      {
+        path: "members",
+        select: "-password -phoneNumber -createdAt -updatedAt",
+      },
+      {
+        path: "projects",
+        select: "-createdAt -updatedAt",
+      },
+    ]);
     res.status(200).json({
       success: true,
       msg: "team picture updated successfully",

@@ -1,10 +1,9 @@
 import moment from "moment";
-import { projects } from "../utils/dummyData";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import ProjectInfo from "../pages/projects/ProjectInfo";
 
-const TeamDashContent = () => {
+const TeamDashContent = ({ projects }) => {
   const [openProject, setOpenProject] = useState(false);
 
   useEffect(() => {

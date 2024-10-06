@@ -1,29 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { request } from "../../utils/request";
-import { userActions } from "../../redux/slices/userSlice";
-import toast from "react-hot-toast";
-
-const useGetAllUsers = () => {
+import { teamActions } from "../../redux/slices/teamSlice";
+const useGetAllTeams = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    const getAllUsers = async () => {
+    const getAllTeams = async () => {
       setLoading(true);
       try {
-        const { data } = await request.get("/users?is_role=all");
-        dispatch(userActions.getAllUsers(data?.success && data?.users));
+        const { data } = await request.get("/teams");
+        dispatch(teamActions.getAllteams(data?.success && data?.teams));
       } catch (error) {
         console.log(error);
-        toast.error(error.response.data.msg);
       } finally {
         setLoading(false);
       }
     };
-    getAllUsers();
+    getAllTeams();
   }, [dispatch]);
 
   return { loading };
 };
 
-export default useGetAllUsers;
+export default useGetAllTeams;

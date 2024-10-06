@@ -1,13 +1,18 @@
 import Swal from "sweetalert2";
-import { teams } from "../../utils/dummyData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
+import useGetAllTeams from "../../hooks/team/useGetAllTeams";
+import { useSelector } from "react-redux";
+import Spinner from "../../components/Spinner";
+import useDeleteTeam from "../../hooks/team/useDeleteTeam";
 
 const Teams = () => {
   const [search, setSearch] = useState("");
+  const { loading } = useGetAllTeams();
+  const { teams } = useSelector((state) => state.team);
+  const { deleteTeam } = useDeleteTeam();
 
-  // eslint-disable-next-line no-unused-vars
   const deleteHandler = (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -17,10 +22,8 @@ const Teams = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("deleted");
-      }
+    }).then(async () => {
+      await deleteTeam(id);
     });
   };
   return (
@@ -54,54 +57,58 @@ const Teams = () => {
           />
         </div>
       </div>
-      <div className="flex gap-2 flex-wrap justify-center mt-10">
-        {teams?.map((team) => (
-          <div
-            key={team?._id}
-            className=" w-[calc(100%/3.1)] h-80 rounded-xl shadow-lg relative"
-          >
-            <img
-              src={team?.teamPic.url}
-              alt="teampic"
-              className="rounded-xl object-cover h-full w-full opacity-[0.5]"
-            />
-            <div className="absolute w-full h-full bg-green-400 top-0 rounded-xl opacity-[0.8]">
-              <div>
-                <div className="text-white text-center text-2xl my-5 font-semibold border-b-2 pb-3">
-                  {team?.teamName}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div className="flex gap-2 flex-wrap justify-center mt-10">
+          {teams?.map((team) => (
+            <div
+              key={team?._id}
+              className=" w-[calc(100%/3.1)] h-80 rounded-xl shadow-lg relative"
+            >
+              <img
+                src={team?.teamPic.url}
+                alt="teampic"
+                className="rounded-xl object-cover h-full w-full opacity-[0.5]"
+              />
+              <div className="absolute w-full h-full bg-green-400 top-0 rounded-xl opacity-[0.8]">
+                <div>
+                  <div className="text-white text-center text-2xl my-5 font-semibold border-b-2 pb-3">
+                    {team?.teamName}
+                  </div>
+                  <div className="p-3">
+                    <div className="text-white font-semibold my-3">
+                      Team Leader :{" "}
+                      <span className="text-blue-500 font-bold">
+                        {team?.teamLeader.userName}
+                      </span>
+                    </div>
+                    <div className="text-white font-semibold my-3">
+                      Members:{" "}
+                      <span className="text-blue-500 font-bold">
+                        {team?.members.length}
+                      </span>
+                    </div>
+                    <div className="text-white font-semibold my-3">
+                      Projects :{" "}
+                      <span className="text-blue-500 font-bold">
+                        {team?.projects.length}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="p-3">
-                  <div className="text-white font-semibold my-3">
-                    Team Leader :{" "}
-                    <span className="text-blue-500 font-bold">
-                      {team?.teamLeader.userName}
-                    </span>
-                  </div>
-                  <div className="text-white font-semibold my-3">
-                    Members:{" "}
-                    <span className="text-blue-500 font-bold">
-                      {team?.members.length}
-                    </span>
-                  </div>
-                  <div className="text-white font-semibold my-3">
-                    Projects :{" "}
-                    <span className="text-blue-500 font-bold">
-                      {team?.projects.length}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="absolute bottom-0 w-full bg-green-400 hover:bg-red-500 text-red-600 hover:text-white transition-all
+                <div
+                  className="absolute bottom-0 w-full bg-green-400 hover:bg-red-500 text-red-600 hover:text-white transition-all
               rounded-br-lg rounded-bl-lg p-3 cursor-pointer text-center font-bold text-lg"
-                onClick={() => deleteHandler(team?._id)}
-              >
-                Delete Team
+                  onClick={() => deleteHandler(team?._id)}
+                >
+                  Delete Team
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

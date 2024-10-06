@@ -25,7 +25,7 @@ export const createProjectSchema = yup.object().shape({
 
 export const createTeamSchema = yup.object().shape({
   teamName: yup.string().required("required"),
-  teamLeader: yup.string().required("you must choose a team leader"),
+  // teamLeader: yup.string().required("you must choose a team leader"),
 });
 
 export const createTaskSchema = yup.object().shape({

@@ -8,7 +8,7 @@ const useDeleteUser = () => {
 
   const deleteUser = async (id) => {
     try {
-      const { data } = await request.delete(`users/${id}`);
+      const { data } = await request.delete(`/users/${id}`);
       dispatch(userActions.deleteUser(data?.success && data?.deletedUser));
       toast.success(data?.msg);
     } catch (error) {

@@ -1,12 +1,18 @@
 import { useFormik } from "formik";
 import { createTeamSchema } from "../../utils/schema";
-import { users } from "../../utils/dummyData";
+import useGetAllUsers from "../../hooks/user/useGetAllUsers";
+import { useSelector } from "react-redux";
+import useCreateTeam from "../../hooks/team/useCreateTeam";
+import Spinner from "../../components/Spinner";
 
 const CreateTeam = () => {
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    actions.resetForm();
+  const { loading, createTeam } = useCreateTeam();
+  const onSubmit = async (values) => {
+    await createTeam(values);
   };
+
+  useGetAllUsers();
+  const { users } = useSelector((state) => state.user);
 
   const {
     values,
@@ -67,7 +73,7 @@ const CreateTeam = () => {
               select team leader
             </option>
             {getTeamLeaders?.map((leader) => (
-              <option key={leader?._id} value={leader?.userName}>
+              <option key={leader?._id} value={leader?._id}>
                 {leader?.userName}
               </option>
             ))}
@@ -85,6 +91,7 @@ const CreateTeam = () => {
           create
         </button>
       </form>
+      {loading && <Spinner />}
     </div>
   );
 };
