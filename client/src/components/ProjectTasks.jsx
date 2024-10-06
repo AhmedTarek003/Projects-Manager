@@ -3,7 +3,6 @@ import { RiDeleteBin6Line, RiEyeLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 import TaskInfo from "../pages/task/TaskInfo";
 
-// eslint-disable-next-line react/prop-types
 const ProjectTasks = ({ tasks, user }) => {
   const [checkTask, setCheckTask] = useState(tasks);
   const [openTask, setOpenTask] = useState(false);

@@ -1,11 +1,16 @@
 import { useFormik } from "formik";
 import { createProjectSchema } from "../../utils/schema";
-import { teams } from "../../utils/dummyData";
+import useCreateProject from "../../hooks/project/useCreateProject";
+import useGetAllTeams from "../../hooks/team/useGetAllTeams";
+import { useSelector } from "react-redux";
+import Spinner from "../../components/Spinner";
 
 const AddProject = () => {
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    actions.resetForm();
+  const { createProject, loading } = useCreateProject();
+  useGetAllTeams();
+  const { teams } = useSelector((state) => state.team);
+  const onSubmit = async (values) => {
+    await createProject(values);
   };
 
   const {
@@ -67,7 +72,7 @@ const AddProject = () => {
               select team
             </option>
             {teams?.map((team) => (
-              <option key={team?._id} value={team?.teamName}>
+              <option key={team?._id} value={team?._id}>
                 {team?.teamName}
               </option>
             ))}
@@ -121,6 +126,7 @@ const AddProject = () => {
           create
         </button>
       </form>
+      {loading && <Spinner />}
     </div>
   );
 };

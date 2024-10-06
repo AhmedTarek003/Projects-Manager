@@ -1,11 +1,18 @@
 import { useFormik } from "formik";
 import { createProjectSchema } from "../../utils/schema";
-import { project, teams } from "../../utils/dummyData";
+import useGetProject from "../../hooks/project/useGetProject";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import useUpdateProject from "../../hooks/project/useUpdateProject";
 
 const EditProject = () => {
-  const onSubmit = async (values, actions) => {
-    console.log(values);
-    actions.resetForm();
+  const { id } = useParams();
+  useGetProject(id);
+  const { project } = useSelector((state) => state.project);
+  const { updateProject } = useUpdateProject();
+  const onSubmit = async (values) => {
+    await updateProject(id, values);
   };
 
   const {
@@ -19,7 +26,6 @@ const EditProject = () => {
   } = useFormik({
     initialValues: {
       projectName: project?.projectName,
-      team: project?.team.teamName,
       startDate: project?.startDate,
       dueDate: project?.dueDate,
     },
@@ -28,6 +34,15 @@ const EditProject = () => {
     validateOnBlur: false,
     validateOnChange: false,
   });
+
+  useEffect(() => {
+    if (project) {
+      values.projectName = project?.projectName;
+      values.startDate = project?.startDate;
+      values.dueDate = project?.dueDate;
+    }
+  }, [project]);
+
   return (
     <div>
       <div className="my-8 text-center text-3xl text-gray-800">
@@ -50,31 +65,6 @@ const EditProject = () => {
           />
           {errors.projectName && touched.projectName && (
             <p className="text-red-500">{errors.projectName}</p>
-          )}
-        </div>
-        <div className="flex flex-col mt-3">
-          <label>Team</label>
-          <select
-            value={values.team}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            name="team"
-            id="team"
-            className={`p-2 mt-1 outline-none rounded-md shadow-sm ${
-              errors.team && touched.team ? "outline-red-500" : ""
-            }`}
-          >
-            <option value="" hidden>
-              select team
-            </option>
-            {teams?.map((team) => (
-              <option key={team?._id} value={team?.teamName}>
-                {team?.teamName}
-              </option>
-            ))}
-          </select>
-          {errors.team && touched.team && (
-            <p className="text-red-500">{errors.team}</p>
           )}
         </div>
         <div className="flex gap-3 mt-3">

@@ -30,7 +30,7 @@ const Header = () => {
             }`}
           />
           {dropdown && (
-            <div className="absolute top-[47px] w-[140px] px-2 min-h-[50px] bg-[#f8f7f7]">
+            <div className="absolute z-50 top-[47px] w-[140px] px-2 min-h-[50px] bg-[#f8f7f7]">
               <li
                 className="p-2 mt-1 list-none flex text-red-500 hover:text-red-600 font-semibold text-lg items-center gap-2"
                 onClick={handleLogout}

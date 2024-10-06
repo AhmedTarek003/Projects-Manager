@@ -1,13 +1,18 @@
-import { projects } from "../utils/dummyData";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { LuEye } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import ProjectInfo from "../pages/projects/ProjectInfo";
+import useGetAllProjects from "../hooks/project/useGetAllProjects";
+import { useSelector } from "react-redux";
+import useGetProject from "../hooks/project/useGetProject";
 
 const ProjectsDash = () => {
   const [openProject, setOpenProject] = useState(false);
+  const [id, setId] = useState("");
 
+  useGetAllProjects();
+  const { projects } = useSelector((state) => state.project);
   useEffect(() => {
     if (openProject) {
       document.body.classList.add("open_window");
@@ -15,6 +20,14 @@ const ProjectsDash = () => {
       document.body.classList.remove("open_window");
     }
   }, [openProject]);
+
+  useGetProject(id);
+  const { project } = useSelector((state) => state.project);
+
+  const openProjectHandler = (id) => {
+    setOpenProject(true);
+    setId(id);
+  };
 
   return (
     <>
@@ -60,7 +73,7 @@ const ProjectsDash = () => {
                     <LuEye
                       className="m-auto text-blue-500 cursor-pointer"
                       size={24}
-                      onClick={() => setOpenProject(true)}
+                      onClick={() => openProjectHandler(project?._id)}
                     />
                   </td>
                 </tr>
@@ -74,7 +87,9 @@ const ProjectsDash = () => {
             see all projects
           </Link>
         </div>
-        {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
+        {openProject && (
+          <ProjectInfo setOpenProject={setOpenProject} project={project} />
+        )}
       </div>
     </>
   );

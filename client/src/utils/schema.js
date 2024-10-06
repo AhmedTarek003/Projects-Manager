@@ -18,7 +18,6 @@ export const registerSchema = yup.object().shape({
 
 export const createProjectSchema = yup.object().shape({
   projectName: yup.string().required("required"),
-  team: yup.string().required("you must choose a team"),
   startDate: yup.date().required("required"),
   dueDate: yup.date().required("required"),
 });

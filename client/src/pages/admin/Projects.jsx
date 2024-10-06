@@ -1,31 +1,27 @@
 import { Link } from "react-router-dom";
-import { RiDeleteBin6Line, RiEyeLine } from "react-icons/ri";
+import { RiEyeLine } from "react-icons/ri";
 import { useEffect, useState } from "react";
-import Swal from "sweetalert2";
 import moment from "moment";
-import { projects } from "../../utils/dummyData";
 import { FiPlus } from "react-icons/fi";
 import ProjectInfo from "../projects/ProjectInfo";
+import useGetAllProjects from "../../hooks/project/useGetAllProjects";
+import { useSelector } from "react-redux";
+import useGetProject from "../../hooks/project/useGetProject";
 
 const Projects = () => {
   const [search, setSearch] = useState("");
   const [openProject, setOpenProject] = useState(false);
+  const [id, setId] = useState("");
 
-  // eslint-disable-next-line no-unused-vars
-  const deleteHandler = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("deleted");
-      }
-    });
+  useGetAllProjects();
+  const { projects } = useSelector((state) => state.project);
+
+  useGetProject(id);
+  const { project } = useSelector((state) => state.project);
+
+  const openProjectHandler = (id) => {
+    setOpenProject(true);
+    setId(id);
   };
 
   useEffect(() => {
@@ -117,12 +113,7 @@ const Projects = () => {
                     <RiEyeLine
                       className="text-blue-500 cursor-pointer"
                       size={23}
-                      onClick={() => setOpenProject(true)}
-                    />
-                    <RiDeleteBin6Line
-                      className="text-red-500 cursor-pointer"
-                      size={23}
-                      onClick={() => deleteHandler(project?._id)}
+                      onClick={() => openProjectHandler(project?._id)}
                     />
                   </div>
                 </td>
@@ -131,7 +122,12 @@ const Projects = () => {
           </tbody>
         </table>
       </div>
-      {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
+      {openProject && (
+        <ProjectInfo
+          setOpenProject={setOpenProject}
+          project={project && project}
+        />
+      )}
     </div>
   );
 };

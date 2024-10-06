@@ -2,9 +2,12 @@ import moment from "moment";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import ProjectInfo from "../pages/projects/ProjectInfo";
+import useGetProject from "../hooks/project/useGetProject";
+import { useSelector } from "react-redux";
 
 const TeamDashContent = ({ projects }) => {
   const [openProject, setOpenProject] = useState(false);
+  const [id, setId] = useState("");
 
   useEffect(() => {
     if (openProject) {
@@ -17,6 +20,14 @@ const TeamDashContent = ({ projects }) => {
   const fileterProjects = projects?.filter(
     (project) => project.status !== "completed" && project.status !== "canceled"
   );
+
+  useGetProject(id);
+  const { project } = useSelector((state) => state.project);
+
+  const openProjectHandler = (id) => {
+    setOpenProject(true);
+    setId(id);
+  };
   return (
     <div>
       <table className="table-auto mt-3 w-full">
@@ -58,7 +69,7 @@ const TeamDashContent = ({ projects }) => {
                   <BsInfoCircleFill
                     className="m-auto text-blue-500 hover:text-blue-700 cursor-pointer"
                     size={24}
-                    onClick={() => setOpenProject(true)}
+                    onClick={() => openProjectHandler(project?._id)}
                   />
                 </div>
               </td>
@@ -66,7 +77,9 @@ const TeamDashContent = ({ projects }) => {
           ))}
         </tbody>
       </table>
-      {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
+      {openProject && project && (
+        <ProjectInfo setOpenProject={setOpenProject} project={project} />
+      )}
     </div>
   );
 };

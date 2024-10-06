@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import ProjectInfo from "../projects/ProjectInfo";
 import useGetTeam from "../../hooks/team/useGetTeam";
 import { useSelector } from "react-redux";
+import useGetProject from "../../hooks/project/useGetProject";
 
 const TeamProjects = () => {
   const [openProject, setOpenProject] = useState(false);
+  const [id, setId] = useState("");
 
   useGetTeam();
   const { team } = useSelector((state) => state.team);
@@ -18,6 +20,14 @@ const TeamProjects = () => {
       document.body.classList.remove("open_window");
     }
   }, [openProject]);
+
+  useGetProject(id);
+  const { project } = useSelector((state) => state.project);
+
+  const openProjectHandler = (id) => {
+    setOpenProject(true);
+    setId(id);
+  };
   return (
     <div>
       <div className="text-center my-10 text-4xl font-semibold uppercase text-gray-700">
@@ -62,7 +72,7 @@ const TeamProjects = () => {
                   <BsInfoCircleFill
                     className="m-auto text-blue-500 hover:text-blue-700 cursor-pointer"
                     size={24}
-                    onClick={() => setOpenProject(true)}
+                    onClick={() => openProjectHandler(project?._id)}
                   />
                 </div>
               </td>
@@ -70,7 +80,9 @@ const TeamProjects = () => {
           ))}
         </tbody>
       </table>
-      {openProject && <ProjectInfo setOpenProject={setOpenProject} />}
+      {openProject && project && (
+        <ProjectInfo setOpenProject={setOpenProject} project={project} />
+      )}
     </div>
   );
 };
